@@ -1,2 +1,2 @@
 <?php
-include_once('users.php');
+include_once("./product/read.php");
