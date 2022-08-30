@@ -1,7 +1,12 @@
 <?php
-class Product
+
+namespace App\Model;
+
+use App\Model\Database;
+
+class Product extends Database
 {
-    private $conn;
+    public $conn;
     private $table_name = "products";
 
     public $id;
@@ -12,20 +17,22 @@ class Product
     public $category_name;
     public $created;
 
-    public function __construct($db)
+    public function __construct()
     {
-        $this->conn = $db;
+        $this->conn = $this->getConnection();
     }
 
-    function read()
+    public function read()
     {
-        $query = "SELECT c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created FROM " . $this->table_name . " p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.created DESC";
+        $query = "SELECT c.name as category_name, 
+            p.id, p.name, p.description, p.price, p.category_id, p.created 
+            FROM " . $this->table_name . " p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.created DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
-    function readOne()
+    public function readOne()
     {
         $query = "SELECT
         c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
@@ -38,7 +45,7 @@ class Product
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         $this->name = $row['name'];
         $this->price = $row['price'];
@@ -47,7 +54,7 @@ class Product
         $this->category_name = $row['category_name'];
     }
 
-    function create()
+    public function create()
     {
         $query = "INSERT INTO " . $this->table_name . " SET name=:name, price=:price, description=:description, category_id=:category_id, created=:created";
         $stmt = $this->conn->prepare($query);
