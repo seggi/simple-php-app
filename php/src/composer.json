@@ -1,0 +1,15 @@
+{
+  "name": "nankim/src",
+  "autoload": {
+    "psr-4": {
+      "Api\\": "Api/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Seggi SMS",
+      "email": "seggimarugira@gmail.com"
+    }
+  ],
+  "require": {}
+}

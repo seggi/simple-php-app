@@ -1,4 +1,7 @@
 <?php
+
+namespace Api\Config;
+
 class Database
 {
     private const DB_HOST = 'db';
@@ -13,9 +16,9 @@ class Database
     public function getConnection()
     {
         try {
-            $this->conn = new PDO($this->dsn, self::DB_USER, self::DB_PASS);
-            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+            $this->conn = new \PDO($this->dsn, self::DB_USER, self::DB_PASS);
+            $this->conn->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
             die('Connection error : ' . $e->getMessage());
         }
         return $this->conn;
