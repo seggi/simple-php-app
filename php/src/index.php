@@ -20,7 +20,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 //     exit();
 // }
 
-$productId = null;
+$productId = isset($_GET['id']) ? $_GET['id'] : die();;
 // if (isset($uri[2])) {
 //     $productId = (int) $uri[2];
 // }
