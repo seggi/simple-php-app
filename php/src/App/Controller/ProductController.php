@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Model\Product;
 
-class ReadData extends Product
+class ProductController extends Product
 {
     public function data()
     {

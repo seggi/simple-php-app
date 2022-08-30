@@ -1,6 +1,6 @@
 <?php
 
-use App\Controller\ReadData;
+use App\Api\ProductRoute;
 
 require_once("./vendor/autoload.php");
 
@@ -12,5 +12,20 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
-$readData = new ReadData();
-$read = $readData->data();
+
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// if ($uri[1] !== 'product') {
+//     header("HTTP/1.1 404 Not Found");
+//     exit();
+// }
+
+$productId = null;
+// if (isset($uri[2])) {
+//     $productId = (int) $uri[2];
+// }
+
+$requestMethod = $_SERVER["REQUEST_METHOD"];
+
+$route = new ProductRoute($requestMethod, $productId);
+$route->processRequest();
