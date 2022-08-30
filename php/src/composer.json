@@ -2,7 +2,7 @@
   "name": "nankim/src",
   "autoload": {
     "psr-4": {
-      "Api\\": "Api/"
+      "App\\": "App/"
     }
   },
   "authors": [

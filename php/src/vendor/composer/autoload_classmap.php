@@ -6,8 +6,9 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Api\\Config\\Database' => $baseDir . '/Api/Config/Database.php',
-    'Api\\Objects\\Product' => $baseDir . '/Api/Objects/Product.php',
-    'Api\\Product\\ReadData' => $baseDir . '/Api/Product/ReadData.php',
+    'App\\Controller\\ReadData' => $baseDir . '/App/Controller/ReadData.php',
+    'App\\Inc\\DotEnv' => $baseDir . '/App/Inc/DotEnv.php',
+    'App\\Model\\Database' => $baseDir . '/App/Model/Database.php',
+    'App\\Model\\Product' => $baseDir . '/App/Model/Product.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
 );

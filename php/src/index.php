@@ -1,6 +1,6 @@
 <?php
 
-use Api\Product\ReadData;
+use App\Controller\ReadData;
 
 require_once("./vendor/autoload.php");
 

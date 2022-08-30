@@ -1,10 +1,12 @@
 <?php
 
-namespace Api\Objects;
+namespace App\Model;
 
-class Product
+use App\Model\Database;
+
+class Product extends Database
 {
-    private $conn;
+    public $conn;
     private $table_name = "products";
 
     public $id;
@@ -15,14 +17,16 @@ class Product
     public $category_name;
     public $created;
 
-    public function __construct($db)
+    public function __construct()
     {
-        $this->conn = $db;
+        $this->conn = $this->getConnection();
     }
 
     public function read()
     {
-        $query = "SELECT c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created FROM " . $this->table_name . " p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.created DESC";
+        $query = "SELECT c.name as category_name, 
+            p.id, p.name, p.description, p.price, p.category_id, p.created 
+            FROM " . $this->table_name . " p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.created DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;

@@ -9,21 +9,22 @@ class ComposerStaticInit728260656daca05c14ee755291e063d2
     public static $prefixLengthsPsr4 = array (
         'A' => 
         array (
-            'Api\\' => 4,
+            'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Api\\' => 
+        'App\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Api',
+            0 => __DIR__ . '/../..' . '/App',
         ),
     );
 
     public static $classMap = array (
-        'Api\\Config\\Database' => __DIR__ . '/../..' . '/Api/Config/Database.php',
-        'Api\\Objects\\Product' => __DIR__ . '/../..' . '/Api/Objects/Product.php',
-        'Api\\Product\\ReadData' => __DIR__ . '/../..' . '/Api/Product/ReadData.php',
+        'App\\Controller\\ReadData' => __DIR__ . '/../..' . '/App/Controller/ReadData.php',
+        'App\\Inc\\DotEnv' => __DIR__ . '/../..' . '/App/Inc/DotEnv.php',
+        'App\\Model\\Database' => __DIR__ . '/../..' . '/App/Model/Database.php',
+        'App\\Model\\Product' => __DIR__ . '/../..' . '/App/Model/Product.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 

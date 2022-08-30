@@ -1,19 +1,14 @@
 <?php
 
-namespace Api\Product;
+namespace App\Controller;
 
-use Api\Config\Database;
-use Api\Objects\Product;
+use App\Model\Product;
 
-
-class ReadData
+class ReadData extends Product
 {
     public function data()
     {
-        $database = new Database;
-        $db = $database->getConnection();
-        $product = new Product($db);
-        $stmt = $product->read();
+        $stmt = $this->read();
         $num = $stmt->rowCount();
 
         if ($num > 0) {
