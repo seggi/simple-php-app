@@ -10,9 +10,9 @@ class ProductRoute
     private $productId;
     private $productController;
 
-    public function __construct($requestMethod, $userId)
+    public function __construct($requestMethod, $productId)
     {
-        $this->userId = $userId;
+        $this->productId = $productId;
         $this->requestMethod = $requestMethod;
         $this->productController = new ProductController();
     }
@@ -22,9 +22,14 @@ class ProductRoute
         switch ($this->requestMethod) {
             case 'GET':
                 if ($this->productId) {
-                    echo "No yet implemented";
+                    $this->productController->fetchProductById($this->productId);
+                } else {
+                    $this->productController->fetchAllProduct();
                 }
-                $this->productController->data();
+                break;
+
+            case 'POST':
+                $this->productController->saveProduct();
                 break;
 
             default:
