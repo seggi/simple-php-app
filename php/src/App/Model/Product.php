@@ -7,15 +7,19 @@ use App\Model\Database;
 class Product extends Database
 {
     public $conn;
-    private $table_name = "products";
+    private const product_table = "products";
+    private const product_type_table = "product_types";
+    private const product_type_spec_table = "product_type_spec";
 
     public $id;
+    public $sku;
     public $name;
-    public $description;
     public $price;
-    public $category_id;
-    public $category_name;
-    public $created;
+    public $type_values;
+    public $product_type_id;
+    public $product_type_name;
+    public $product_type_spec_id;
+    public $type_spec;
 
     public function __construct()
     {
@@ -24,9 +28,9 @@ class Product extends Database
 
     public function read()
     {
-        $query = "SELECT c.name as category_name, 
-            p.id, p.name, p.description, p.price, p.category_id, p.created 
-            FROM " . $this->table_name . " p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.created DESC";
+        $query = "SELECT p.id, p.sku, p.name, p.price, p.currency, p.type_values, pt.name, pts.type_spec
+        FROM " . self::product_table . " p LEFT JOIN " . self::product_type_table . " pt ON p.product_type_id  = pt.id 
+        LEFT JOIN " . self::product_type_spec_table . " pts ON pt.type_spec_id = pts.id GROUP BY p.id";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -56,14 +60,28 @@ class Product extends Database
 
     public function create()
     {
-        $query = "INSERT INTO " . $this->table_name . " SET name=:name, price=:price, description=:description, category_id=:category_id, created=:created";
+        $query = "INSERT INTO " . self::product_table . " 
+        SET  sku=:sku, name=:name, price=:price, product_type_id=:product_type_id, type_values=:type_values";
         $stmt = $this->conn->prepare($query);
 
+        $stmt->bindParam(":sku", $this->sku);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":price", $this->price);
-        $stmt->bindParam(":description", $this->description);
-        $stmt->bindParam(":category_id", $this->category_id);
-        $stmt->bindParam(":created", $this->created);
+        $stmt->bindParam(":product_type_id", $this->product_type_id);
+        $stmt->bindParam(":type_values", $this->type_values);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function delete()
+    {
+        $sql = "DELETE FROM " . self::product_table . " WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {
             return true;

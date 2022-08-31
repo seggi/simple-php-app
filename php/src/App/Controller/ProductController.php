@@ -20,10 +20,12 @@ class ProductController extends Product
                 $product_item = array(
                     "id" => $id,
                     "name" => $name,
-                    "description" => html_entity_decode($description),
+                    "sku" => $sku,
+                    // "description" => html_entity_decode($description),
                     "price" => $price,
-                    "category_id" => $category_id,
-                    "category_name" => $category_name
+                    "type_values" => $type_values,
+                    "currency" => $currency,
+                    "type_spec" => $type_spec
                 );
 
                 array_push($products_arr["records"], $product_item);
@@ -43,24 +45,25 @@ class ProductController extends Product
 
         if (
             !empty($data->name) && !empty($data->price) &&
-            !empty($data->description) && !empty($data->category_id)
+            !empty($data->product_type_id) && !empty($data->type_values)
         ) {
+            $uniqKey =  uniqid();
             $this->name = $data->name;
             $this->price = $data->price;
-            $this->description = $data->description;
-            $this->category_id = $data->category_id;
-            $this->created = date('Y-m-d H:i:s');
+            $this->product_type_id = $data->product_type_id;
+            $this->type_values = $data->type_values;
+            $this->sku = $uniqKey;
 
             if ($this->create()) {
                 http_response_code(201);
-                echo json_encode(array("message" => "this was created."));
+                echo json_encode(array("message" => "Product was added."));
             } else {
                 http_response_code(503);
-                echo json_encode(array("message" => "Unable to create this."));
+                echo json_encode(array("message" => "Unable to add product."));
             }
         } else {
             http_response_code(400);
-            echo json_encode(array("message" => "Unable to create product. Data is incomplete"));
+            echo json_encode(array("message" => "Unable to add product. Data is incomplete"));
         }
     }
 
@@ -85,5 +88,18 @@ class ProductController extends Product
             http_response_code(404);
             echo json_encode(array("message" => "Product does not exist."));
         }
+    }
+
+    public function deleteProduct()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        foreach ($data as $address) {
+            $this->id = $address['id'];
+            $this->delete();
+        }
+
+        http_response_code(200);
+        echo json_encode(array("message" => "Product deleted."));
     }
 }

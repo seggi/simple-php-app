@@ -32,6 +32,10 @@ class ProductRoute
                 $this->productController->saveProduct();
                 break;
 
+            case 'DELETE':
+                $this->productController->deleteProduct();
+                break;
+
             default:
                 $this->notFoundResponse();
                 break;
