@@ -12,9 +12,10 @@ class Product extends Database
     private const product_type_spec_table = "product_type_spec";
 
     public $id;
+    public $sku;
     public $name;
     public $price;
-    public $values;
+    public $type_values;
     public $product_type_id;
     public $product_type_name;
     public $product_type_spec_id;
@@ -27,7 +28,7 @@ class Product extends Database
 
     public function read()
     {
-        $query = "SELECT p.id, p.name, p.price, p.currency, p.values, pt.name, pts.type_spec
+        $query = "SELECT p.id, p.sku, p.name, p.price, p.currency, p.type_values, pt.name, pts.type_spec
         FROM " . self::product_table . " p LEFT JOIN " . self::product_type_table . " pt ON p.product_type_id  = pt.id 
         LEFT JOIN " . self::product_type_spec_table . " pts ON pt.type_spec_id = pts.id GROUP BY p.id";
         $stmt = $this->conn->prepare($query);
@@ -60,13 +61,14 @@ class Product extends Database
     public function create()
     {
         $query = "INSERT INTO " . self::product_table . " 
-        SET name=:name, price=:price, product_type_id=:product_type_id, product_type_spec_id=:product_type_spec_id";
+        SET  sku=:sku, name=:name, price=:price, product_type_id=:product_type_id, type_values=:type_values";
         $stmt = $this->conn->prepare($query);
 
+        $stmt->bindParam(":sku", $this->sku);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":price", $this->price);
         $stmt->bindParam(":product_type_id", $this->product_type_id);
-        $stmt->bindParam(":product_type_spec_id", $this->values);
+        $stmt->bindParam(":type_values", $this->type_values);
 
         if ($stmt->execute()) {
             return true;
