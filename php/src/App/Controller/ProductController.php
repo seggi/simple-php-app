@@ -20,10 +20,11 @@ class ProductController extends Product
                 $product_item = array(
                     "id" => $id,
                     "name" => $name,
-                    "description" => html_entity_decode($description),
+                    // "description" => html_entity_decode($description),
                     "price" => $price,
-                    "category_id" => $category_id,
-                    "category_name" => $category_name
+                    "value" => $values,
+                    "currency" => $currency,
+                    "type_spec" => $type_spec
                 );
 
                 array_push($products_arr["records"], $product_item);
