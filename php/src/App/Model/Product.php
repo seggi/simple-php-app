@@ -76,4 +76,17 @@ class Product extends Database
 
         return false;
     }
+
+    public function delete()
+    {
+        $sql = "DELETE FROM " . self::product_table . " WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id", $this->id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
+    }
 }

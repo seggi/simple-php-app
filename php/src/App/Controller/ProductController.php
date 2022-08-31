@@ -89,4 +89,17 @@ class ProductController extends Product
             echo json_encode(array("message" => "Product does not exist."));
         }
     }
+
+    public function deleteProduct()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        foreach ($data as $address) {
+            $this->id = $address['id'];
+            $this->delete();
+        }
+
+        http_response_code(200);
+        echo json_encode(array("message" => "Product deleted."));
+    }
 }
