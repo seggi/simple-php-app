@@ -21,11 +21,13 @@ class ProductController extends Product
                     "id" => $id,
                     "name" => $name,
                     "sku" => $sku,
-                    // "description" => html_entity_decode($description),
                     "price" => $price,
-                    "type_values" => $type_values,
+                    "product_length" => $product_length,
                     "currency" => $currency,
-                    "type_spec" => $type_spec
+                    "product_weight" => $product_weight,
+                    "product_width" => $product_width,
+                    "product_size" => $product_size,
+                    "product_height" => $product_height
                 );
 
                 array_push($products_arr["records"], $product_item);
@@ -45,48 +47,33 @@ class ProductController extends Product
 
         if (
             !empty($data->name) && !empty($data->price) &&
-            !empty($data->product_type_id) && !empty($data->type_values)
+            !empty($data->sku)
         ) {
             $uniqKey =  uniqid();
             $this->name = $data->name;
             $this->price = $data->price;
-            $this->product_type_id = $data->product_type_id;
-            $this->type_values = $data->type_values;
-            $this->sku = $uniqKey;
+            $this->product_length = $data->product_length;
+            $this->product_weight = $data->product_weight;
+            $this->product_size = $data->product_size;
+            $this->product_width = $data->product_width;
+            $this->product_height = $data->product_height;
+            $this->sku = $data->sku;
 
-            if ($this->create()) {
-                http_response_code(201);
-                echo json_encode(array("message" => "Product was added."));
+            if ($this->checkSku($this->sku) == "Empty") {
+                if ($this->create()) {
+                    http_response_code(201);
+                    echo json_encode(array("message" => "Product was added."));
+                } else {
+                    http_response_code(503);
+                    echo json_encode(array("message" => "Unable to add product."));
+                }
             } else {
-                http_response_code(503);
-                echo json_encode(array("message" => "Unable to add product."));
+                http_response_code(200);
+                echo json_encode(array("message" => "Product with same SKU already exits."));
             }
         } else {
             http_response_code(400);
             echo json_encode(array("message" => "Unable to add product. Data is incomplete"));
-        }
-    }
-
-    public function fetchProductById($id)
-    {
-        $this->id = $id;
-        $this->readOne();
-
-        if ($this->name != null) {
-            $product_arr = array(
-                "id" =>  $this->id,
-                "name" => $this->name,
-                "description" => $this->description,
-                "price" => $this->price,
-                "category_id" => $this->category_id,
-                "category_name" => $this->category_name
-            );
-
-            http_response_code(200);
-            echo json_encode($product_arr);
-        } else {
-            http_response_code(404);
-            echo json_encode(array("message" => "Product does not exist."));
         }
     }
 
