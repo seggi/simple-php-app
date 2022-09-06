@@ -7,7 +7,6 @@ use App\Controller\ProductController;
 class ProductRoute
 {
     private $requestMethod;
-    private $productId;
     private $productController;
 
     public function __construct($requestMethod, $productId)
@@ -21,11 +20,7 @@ class ProductRoute
     {
         switch ($this->requestMethod) {
             case 'GET':
-                if ($this->productId) {
-                    $this->productController->fetchProductById($this->productId);
-                } else {
-                    $this->productController->fetchAllProduct();
-                }
+                $this->productController->fetchAllProduct();
                 break;
 
             case 'POST':
