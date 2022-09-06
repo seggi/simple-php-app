@@ -1,8 +1,5 @@
-# Turn Rewrite Engine On
-RewriteEngine On 
-
-#Remove .php extension form users.php 
-RewriteRule ^users/?$ index.php [NC, L]
-
-#Rewrite URL
-RewriteRule ^users/([0-9]+)/?$ index.php?id=$1 [NC, L]
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php/$0 [PT,L]

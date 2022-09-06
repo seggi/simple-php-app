@@ -49,7 +49,6 @@ class ProductController extends Product
             !empty($data->name) && !empty($data->price) &&
             !empty($data->sku)
         ) {
-            $uniqKey =  uniqid();
             $this->name = $data->name;
             $this->price = $data->price;
             $this->product_length = $data->product_length;
